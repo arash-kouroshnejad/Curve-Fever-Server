@@ -17,6 +17,7 @@ public class Validator extends PacketValidator {
         commandList.add(new Invite(null));
         // commandList.add(new Offer(null));
         commandList.add(new Result(null));
+        commandList.add(new Info(null));
     }
     @Override
     public void validate(Packet incoming) {
@@ -25,7 +26,7 @@ public class Validator extends PacketValidator {
                 if (command.isValid(incoming.command)) {
                     var clazz = command.getClass();
                     var constructor = clazz.getConstructor(Command.class, Entity.class);
-                    var finalCommand = constructor.newInstance(command, incoming.entity);
+                    var finalCommand = constructor.newInstance(incoming.command, incoming.entity);
                     manager.execute(finalCommand);
                 }
         } catch (Exception e) {

@@ -1,10 +1,11 @@
-package common.core.util;
+package common.gfx.util;
 
 import com.google.gson.Gson;
-import common.core.objects.DynamicElement;
-import common.core.objects.Layer;
-import common.core.objects.Map;
-import common.core.objects.StaticElement;
+import common.gfx.objects.DynamicElement;
+import common.gfx.objects.Layer;
+import common.gfx.objects.Map;
+import common.gfx.objects.StaticElement;
+import common.gfx.render.GameEngine;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -31,9 +32,12 @@ public abstract class Loader {
 
     protected String[] lockedElements = new String[0];
 
-    public Loader(String pathToSprites, String pathToMaps) {
+    protected final GameEngine engine;
+
+    public Loader(String pathToSprites, String pathToMaps, GameEngine engine) {
         PathToSprites = pathToSprites;
         PathToMaps = pathToMaps;
+        this.engine = engine;
     }
 
     public ArrayList<Image> getSprite(String type) {
@@ -100,7 +104,7 @@ public abstract class Loader {
                     }
                 }
             }
-            map.init();
+            map.init(engine);
         }
     }
 

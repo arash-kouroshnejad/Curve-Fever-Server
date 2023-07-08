@@ -7,7 +7,7 @@ public class Offer extends Command {
 
     public Offer(Entity recipient) {
         super(recipient);
-        addHeader("connection-type", "udp");
+        addHeader("connection-type", "tcp");
         addHeader("type", "offer");
     }
 

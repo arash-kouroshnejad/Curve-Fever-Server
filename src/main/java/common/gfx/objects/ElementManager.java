@@ -1,6 +1,6 @@
-package common.core.objects;
+package common.gfx.objects;
 
-import common.core.util.Semaphore;
+import common.gfx.util.Semaphore;
 
 public class ElementManager extends Thread{
 

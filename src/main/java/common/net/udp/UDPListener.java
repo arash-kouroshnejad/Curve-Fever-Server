@@ -41,14 +41,6 @@ public class UDPListener extends Listener {
             if (!connected)
                 throw new RuntimeException("Address not set!");
             var bytes = Packet.toBytes(data);
-            /*int lastIndex = 0;
-            int iteration = (int) Math.ceil(bytes.length / 1024f);
-            for (int i = 0; i < iteration; i++) {
-                System.arraycopy(bytes, lastIndex, buffer, 0, Math.min(1024, bytes.length - lastIndex));
-                var packet = new DatagramPacket(buffer, Math.min(1024, bytes.length - lastIndex), remoteAddress, remotePort);
-                socket.send(packet);
-                lastIndex += 1024;
-            }*/
             byte[] length = toBytes(bytes.length);
             System.arraycopy(length, 0, buffer, 0, 2);
             System.arraycopy(bytes, 0, buffer, 2, bytes.length);
@@ -62,16 +54,6 @@ public class UDPListener extends Listener {
             connected = true;
         }
 
-        /*@Override
-        protected DatagramPacket readPacket() throws IOException {
-            if (!connected) {
-                var packet = super.readPacket();
-                init(packet);
-                return packet;
-            }
-            return super.readPacket();
-        }*/
-
         @Override
         protected void handShake() throws IOException {
             var datagramPacket = readPacket();
@@ -81,7 +63,7 @@ public class UDPListener extends Listener {
                 universalPacket = generateUniversalPacket(datagramPacket);
             }
             init(datagramPacket);
-            for (int i = 0; i< 10; i++) {
+            for (int i = 0; i < 10; i++) {
                 send(new Packet(new Command(null).addHeader("ack", "ack"), -1));
             }
         }

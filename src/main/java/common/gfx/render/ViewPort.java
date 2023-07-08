@@ -1,14 +1,12 @@
-package common.core.render;
+package common.gfx.render;
 
-import common.core.objects.DynamicElement;
-import common.core.objects.StaticElement;
+import common.gfx.objects.DynamicElement;
+import common.gfx.objects.StaticElement;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class ViewPort {
-    private final static ViewPort instance = new ViewPort();
-    private ViewPort() {}
     private int x, y, width, height;
     private JFrame frame;
     private DynamicElement lockedElement;
@@ -20,10 +18,6 @@ public class ViewPort {
     public void setLockedElement(DynamicElement lockedElement) {
         this.lockedElement = lockedElement;
         x = lockedElement.getX() - width / 2;
-    }
-
-    public static ViewPort getInstance() {
-        return instance;
     }
 
     public void setFrame(JFrame frame) {

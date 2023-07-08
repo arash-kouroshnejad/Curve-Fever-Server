@@ -1,5 +1,6 @@
-package common.core.util;
+package common.gfx.util;
 
+import common.gfx.render.GameEngine;
 import common.persistence.Config;
 
 import java.awt.*;
@@ -9,8 +10,8 @@ public abstract class SpriteLoader extends Loader {
 
     private final String[] dynamicTypes;
 
-    public SpriteLoader(String PathToMaps) {
-        super(Config.getInstance().getProperty("SpritesDir"), PathToMaps);
+    public SpriteLoader(String PathToMaps, GameEngine engine) {
+        super(Config.getInstance().getProperty("SpritesDir"), PathToMaps, engine);
         Config c = Config.getInstance();
         TYPES = c.getProperty("TYPES").split(",");
         for (String type : TYPES) {

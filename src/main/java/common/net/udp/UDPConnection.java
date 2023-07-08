@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/* id -1 is reserved */
 public class UDPConnection extends Connection {
     protected DatagramSocket socket;
     protected final byte[] buffer = new byte[65000];
@@ -52,8 +53,11 @@ public class UDPConnection extends Connection {
 
     @Override
     public synchronized Packet fetch() throws IOException {
-        var datagramPacket = readPacket();
-        return generateUniversalPacket(datagramPacket);
+        var packet = generateUniversalPacket(readPacket());
+        if (connected)
+            while (packet.id == -1)
+                packet = generateUniversalPacket(readPacket());
+        return packet;
     }
 
     protected void handShake() throws IOException {
@@ -72,11 +76,6 @@ public class UDPConnection extends Connection {
         while (universalPacket.id != -1 || !universalPacket.command.headers.containsKey("ack"))
             universalPacket = fetch();
         timer.cancel();
-
-        // redundant ack drop
-        try {
-            Thread.sleep(1000);
-        } catch (Exception ignored) {}
     }
 
     protected Packet generateUniversalPacket(DatagramPacket datagramPacket) {
@@ -93,6 +92,10 @@ public class UDPConnection extends Connection {
     }
 
     protected int toHex(byte[] input) {
-        return input[0] * 256 + input[1];
+        return (input[0] & 0xFF) * 256 + (input[1] & 0xFF);
+    }
+
+    public void setTimeout(int millis) throws SocketException {
+        socket.setSoTimeout(millis);
     }
 }

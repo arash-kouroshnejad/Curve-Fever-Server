@@ -1,4 +1,4 @@
-package common.core.objects;
+package common.gfx.objects;
 
 
 public class DynamicElement extends StaticElement {

@@ -1,6 +1,7 @@
 package server;
 
 import common.net.agent.Heartbeat;
+import common.net.data.Command;
 import common.net.data.Packet;
 import common.policies.NetworkPolicies;
 import server.tasks.Connect;
@@ -13,7 +14,7 @@ import java.util.Optional;
 import java.util.concurrent.Executors;
 
 public class Server extends AbstractAgent {
-    int portNumber = 9000;
+    int portNumber = 9001;
     boolean started;
 
     public Server() {
@@ -42,13 +43,17 @@ public class Server extends AbstractAgent {
 
     @Override
     public void syncID(Entity entity) throws IOException {
-        var packet = new Packet(null, entity.getId());
+        var packet = new Packet(new Command(null), entity.getId());
         entity.getTcp().send(packet);
     }
 
     @Override
     public void registerEntity(Entity entity) {
         super.registerEntity(entity);
-        new Heartbeat(this, entity).start();
+        // new Heartbeat(this, entity).start();
+    }
+
+    public boolean isAvailable(Entity entity) {
+        return entities.contains(entity);
     }
 }

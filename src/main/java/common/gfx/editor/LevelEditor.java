@@ -1,26 +1,17 @@
-package common.core.editor;
+package common.gfx.editor;
 
-import common.core.objects.*;
-import common.core.render.ViewPort;
-import common.core.util.Loader;
-import common.core.util.Semaphore;
+import common.gfx.objects.*;
+import common.gfx.util.Loader;
+import common.gfx.util.Semaphore;
 import common.persistence.Config;
-import common.core.objects.*;
-import common.core.render.GameEngine;
-import common.core.util.Logic;
+import common.gfx.render.GameEngine;
+import common.gfx.util.Logic;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Optional;
 
 public class LevelEditor extends GameEngine {
-    private final static LevelEditor instance = new LevelEditor();
-
-    protected LevelEditor(){}
-
-    public static LevelEditor getInstance() {
-        return instance;
-    }
 
     private Loader loader;
 
@@ -34,21 +25,24 @@ public class LevelEditor extends GameEngine {
 
     private Semaphore mutex = Semaphore.getMutex();
 
-    public void init(MapLoader loader, Logic gameLogic, MapCreator creator) {
+    private GameEngine engine;
+
+    public void init(GameEngine engine, MapLoader loader, Logic gameLogic, MapCreator creator) {
         this.loader = loader;
         this.creator = creator;
         this.gameLogic = gameLogic;
-        GameEngine.getInstance().enableEditorMode();
+        this.engine = engine;
+        engine.enableEditorMode();
         loader.loadMap(Config.getInstance().getProperty("EditorInputMap", Integer.class));
-        gameLogic.setLockedElement(ViewPort.getInstance().getLockedElement());
-        GameEngine.getInstance().init(gameLogic);
-        spritesFrame = new SpritePicker();
-        new MovementThread().start();
+        gameLogic.setLockedElement(engine.getViewPort().getLockedElement());
+        engine.init(gameLogic);
+        spritesFrame = new SpritePicker(this);
+        new MovementThread(engine).start();
     }
 
     public void createMap() {
         int id = Config.getInstance().getProperty("EditorOutputMap", Integer.class);
-        Map map = new Map(Layers.getInstance().getALL_LAYERS(), id);
+        Map map = new Map(engine.getLayers().getALL_LAYERS(), id);
         creator.saveMap(map, id);
     }
 
@@ -80,8 +74,8 @@ public class LevelEditor extends GameEngine {
                     type);
             if (loader.isLocked(type)) {
                 element.setLockedCharacter();
-                ViewPort.getInstance().setLockedElement(element);
-                GameEngine.getInstance().getGameLogic().setLockedElement(element);
+                engine.getViewPort().setLockedElement(element);
+                engine.getGameLogic().setLockedElement(element);
                 layer.addDynamicElement(element, 0); // TODO : funky logic depends on the order fix it and restore level editor sanity!
             }
             else
@@ -177,7 +171,8 @@ public class LevelEditor extends GameEngine {
         return Optional.empty();
     }
 
-    public void setLoader(Loader loader) {
+    public void enableHeadless(Loader loader, GameEngine engine) {
         this.loader = loader;
+        this.engine = engine;
     }
 }

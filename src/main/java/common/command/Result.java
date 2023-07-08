@@ -7,7 +7,7 @@ public class Result extends Command {
 
     public Result(Entity recipient) {
         super(recipient);
-        addHeader("connection-type", "udp");
+        addHeader("connection-type", "tcp");
         addHeader("type", "result");
     }
 
@@ -19,7 +19,8 @@ public class Result extends Command {
     @Override
     public boolean isValid(Command command) {
         var result = command.getHeader("result");
-        return "result".equals(command.getHeader("type")) && ( "acc".equals(result) || "rej".equals(result));
+        return "result".equals(command.getHeader("type")) && ( "acc".equals(result) || "rej".equals(result)
+        && getHeader("name") instanceof String);
     }
 
     @Override

@@ -1,11 +1,9 @@
-package common.core.objects;
+package common.gfx.objects;
 
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Layers {
-    private final static Layers instance = new Layers();
-    private Layers(){}
     private CopyOnWriteArrayList<Layer> ALL_LAYERS = new CopyOnWriteArrayList<>();
 
     public CopyOnWriteArrayList<Layer> getALL_LAYERS() {
@@ -14,10 +12,6 @@ public class Layers {
 
     public void setALL_LAYERS(CopyOnWriteArrayList<Layer> ALL_LAYERS) {
         this.ALL_LAYERS = ALL_LAYERS;
-    }
-
-    public static Layers getInstance() {
-        return instance;
     }
 
     public void addLayer(Layer layer) {

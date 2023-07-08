@@ -1,7 +1,6 @@
-package common.core.objects;
+package common.gfx.objects;
 
-import common.core.render.GameEngine;
-import common.core.render.ViewPort;
+import common.gfx.render.GameEngine;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -26,10 +25,10 @@ public class Map {
     public int getID() {
         return ID;
     }
-    public void init() {
-        Layers.getInstance().setALL_LAYERS(LAYERS);
-        ViewPort.getInstance().setLockedElement(lockedCharacter);
-        GameEngine.getInstance().setMap(this);
+    public void init(GameEngine engine) {
+        engine.getLayers().setALL_LAYERS(LAYERS);
+        engine.getViewPort().setLockedElement(lockedCharacter);
+        engine.setMap(this);
         currentId = ID;
     }
 

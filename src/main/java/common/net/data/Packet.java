@@ -27,12 +27,14 @@ public class Packet implements Serializable {
 
     public static Packet toPacket(byte[] input, int bound) {
         Gson gson = new Gson();
+        String substring = new String(input).substring(2, 2 + bound);
         try {
-            return gson.fromJson(new String(input).substring(2, 2 + bound), Packet.class);
+            return gson.fromJson(substring, Packet.class);
         } catch (JsonSyntaxException e) {
+            System.out.println("Malformed packet : " + substring);
             e.printStackTrace();
-            throw new RuntimeException("Packet is corrupted!");
         }
+        return new Packet(new Command(null), -1);
     }
 
     public static Packet toPacket(Object input) {

@@ -29,8 +29,8 @@ public class Connect implements Runnable{
             var tcpConnection = tcpListener.listen(portNumber);
             var udpConnection = udpListener.listen(portNumber);
             var entity = new Entity(tcpConnection, udpConnection, random);
+            // server.syncID(entity);
             server.registerEntity(entity);
-            server.syncID(entity);
             System.out.println("New client connected on port : " + portNumber);
         } catch (IOException e) {
             throw new RuntimeException(e);

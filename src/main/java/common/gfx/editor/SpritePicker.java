@@ -1,6 +1,6 @@
-package common.core.editor;
+package common.gfx.editor;
 
-import common.core.util.Loader;
+import common.gfx.util.Loader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,8 +21,7 @@ public class SpritePicker extends JFrame {
 
     private final JTextField layer = new JTextField("0");
 
-    private final LevelEditor editor = LevelEditor.getInstance();
-    public SpritePicker() {
+    public SpritePicker(LevelEditor editor) {
         JPanel mainPanel = new JPanel();
         JScrollPane scrollable = new JScrollPane(mainPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         setContentPane(scrollable);
@@ -32,7 +31,7 @@ public class SpritePicker extends JFrame {
         mainPanel.add(x);
         mainPanel.add(y);
         mainPanel.add(layer);
-        Loader loader = LevelEditor.getInstance().getLoader();
+        Loader loader = editor.getLoader();
         String[] types = loader.getTYPES();
         for (String str : types) {
             JButton button = new JButton();

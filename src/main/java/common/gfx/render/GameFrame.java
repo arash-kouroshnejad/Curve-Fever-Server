@@ -1,6 +1,6 @@
-package common.core.render;
+package common.gfx.render;
 
-import common.core.util.Logic;
+import common.gfx.util.Logic;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,8 +9,8 @@ import java.awt.event.*;
 public class GameFrame extends JFrame {
     GameEngine engine;
     Logic gameLogic;
-    public GameFrame() {
-        engine = GameEngine.getInstance();
+    public GameFrame(GameEngine engine) {
+        this.engine = engine;
         gameLogic = engine.getGameLogic();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setUndecorated(true);
@@ -50,8 +50,8 @@ public class GameFrame extends JFrame {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                gameLogic.handleMouseClick(e.getX() + ViewPort.getInstance().getX(),
-                        e.getY() + ViewPort.getInstance().getY());
+                gameLogic.handleMouseClick(e.getX() + engine.getViewPort().getX(),
+                        e.getY() + engine.getViewPort().getY());
             }
         });
     }

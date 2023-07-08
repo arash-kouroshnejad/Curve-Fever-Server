@@ -7,7 +7,7 @@ public class List extends Command {
 
     public List(Entity recipient) {
         super(recipient);
-        addHeader("connection-type", "udp");
+        addHeader("connection-type", "tcp");
         addHeader("type", "list");
     }
 

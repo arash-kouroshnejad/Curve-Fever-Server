@@ -1,13 +1,13 @@
 package common.net.agent;
 
-import common.core.util.Routine;
+import common.gfx.util.Routine;
 import common.net.data.Entity;
 
 import java.io.IOException;
 
 public class Heartbeat extends Routine {
     public Heartbeat(AbstractAgent agent, Entity entity) {
-        super(1, new Lookup(entity, agent, 10)); // todo : move these to policy stack
+        super(1, new Lookup(entity, agent, 20)); // todo : move these to policy stack
     }
     private static class Lookup implements Runnable {
         AbstractAgent agent;

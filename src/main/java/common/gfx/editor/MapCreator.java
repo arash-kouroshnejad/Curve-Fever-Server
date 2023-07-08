@@ -1,14 +1,14 @@
-package common.core.editor;
+package common.gfx.editor;
 
 import com.google.gson.Gson;
-import common.core.objects.Map;
-import common.core.util.Loader;
+import common.gfx.objects.Map;
+import common.gfx.util.Loader;
 
 import java.io.FileWriter;
 
 public abstract class MapCreator extends Loader {
-    public MapCreator(String PathToMaps) {
-        super(null, PathToMaps);
+    public MapCreator(String PathToMaps, LevelEditor levelEditor) {
+        super(null, PathToMaps, levelEditor);
     }
 
     @Override

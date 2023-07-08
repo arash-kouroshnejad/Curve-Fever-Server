@@ -1,4 +1,4 @@
-package common.core.util;
+package common.gfx.util;
 
 public class Routine extends Thread{
     private final double FPS;

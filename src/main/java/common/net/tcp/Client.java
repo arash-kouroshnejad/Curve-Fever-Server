@@ -1,11 +1,16 @@
 package common.net.tcp;
 
-import java.io.IOException;
 
-public class Client {
-    public static void main(String[] args) throws IOException {
-        var connection = new TCPConnection();
-        connection.connectTo("localhost", 9000, "localhost", 8000);
-        System.out.println(connection.fetch());
+public class Client extends Thread{
+    public void run() {
+        try {
+            var connection = new TCPConnection();
+            connection.connectTo("localhost", 9000, "localhost", 8000);
+            /*System.out.println(connection.fetch().command.headers);*/
+            while (true)
+                System.out.println(connection.fetch().command.getHeader("shit"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

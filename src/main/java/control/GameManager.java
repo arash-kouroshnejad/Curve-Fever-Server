@@ -14,6 +14,7 @@ import java.util.concurrent.Executors;
 public class GameManager {
 
     private final static GameManager instance = new GameManager();
+
     private GameManager() {}
 
     public static GameManager getInstance() {
@@ -31,11 +32,27 @@ public class GameManager {
         server.setRetrievalAction(new RetrievalBehaviour(server, new Validator()));
         server.init();
         server.start();
+        new GameLobby(server, commandFactory);
     }
 
     public void execute(Command command) {executors.submit(command);}
 
     public void admitClient(Entity entity) {
         server.send(commandFactory.register(entity));
+    }
+
+    public void offerPlayer(String playerName, Entity from) {
+        var players = PlayerPool.getInstance().getPlayers();
+        var sender = players.stream().filter(player -> player.entity() == from).findFirst();
+        if (sender.isEmpty())
+            return;
+        players.stream().filter(player -> player.name().equals(playerName)).
+                forEach(player -> server.send(commandFactory.Offer(player.entity(), sender.get().name())));
+    }
+
+    public void registerPlayer(String name, Entity entity) {
+        if (PlayerPool.getInstance().isValidName(name)) {
+            PlayerPool.getInstance().addPlayer(name, entity);
+        }
     }
 }

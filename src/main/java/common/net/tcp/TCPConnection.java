@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class TCPConnection extends Connection {
     protected Socket socket;
@@ -46,5 +47,9 @@ public class TCPConnection extends Connection {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void setTimeout(int millis) throws SocketException {
+        socket.setSoTimeout(millis);
     }
 }

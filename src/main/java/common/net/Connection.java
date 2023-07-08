@@ -14,6 +14,7 @@ public abstract class Connection {
     public abstract void disconnect() throws IOException;
     public abstract void send(Packet data) throws IOException;
     public abstract Packet fetch() throws IOException;
+    public abstract void setTimeout(int millis) throws SocketException;
     @Getter
     @Setter
     private boolean idle = true;

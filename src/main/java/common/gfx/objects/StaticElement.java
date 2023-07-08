@@ -1,4 +1,4 @@
-package common.core.objects;
+package common.gfx.objects;
 
 import java.awt.*;
 import java.util.ArrayList;

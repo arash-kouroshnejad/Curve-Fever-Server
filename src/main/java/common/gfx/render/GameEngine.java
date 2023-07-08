@@ -1,32 +1,25 @@
-package common.core.render;
+package common.gfx.render;
 
-import common.core.objects.Layers;
-import common.core.objects.Map;
-import common.core.util.Semaphore;
-import common.core.objects.Layer;
-import common.core.util.Logic;
+import common.gfx.objects.Layers;
+import common.gfx.objects.Map;
+import common.gfx.util.Semaphore;
+import common.gfx.objects.Layer;
+import common.gfx.util.Logic;
 
 import java.awt.*;
 
 
 public class GameEngine {
-    private final static GameEngine instance = new GameEngine();
     GameFrame gameFrame;
-
-    protected GameEngine() {}
 
     private boolean started;
 
     private boolean editorMode;
 
-    private final ViewPort viewPort = ViewPort.getInstance();
-
-    public static GameEngine getInstance() {
-        return instance;
-    }
+    protected final ViewPort viewPort = new ViewPort();
 
 
-    protected Layers layers = Layers.getInstance();
+    protected Layers layers = new Layers();
 
     private Map map;
 
@@ -52,9 +45,9 @@ public class GameEngine {
 
     public void init(Logic gameLogic) {
         this.gameLogic = gameLogic;
-        gameFrame = new GameFrame();
+        gameFrame = new GameFrame(this);
         viewPort.setFrame(gameFrame);
-        animationAgent = new Animation(80);
+        animationAgent = new Animation(80, this);
         animationAgent.start();
     }
 
@@ -124,5 +117,13 @@ public class GameEngine {
 
     public void enableCustomPainting() {
         customPainting = true;
+    }
+
+    public Layers getLayers() {
+        return layers;
+    }
+
+    public ViewPort getViewPort() {
+        return viewPort;
     }
 }

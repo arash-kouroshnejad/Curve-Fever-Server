@@ -1,4 +1,4 @@
-package common.core.util;
+package common.gfx.util;
 
 public class Semaphore {
     private final static Semaphore mutex = new Semaphore(1);

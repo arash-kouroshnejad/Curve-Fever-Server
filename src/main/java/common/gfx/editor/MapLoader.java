@@ -1,18 +1,19 @@
-package common.core.editor;
+package common.gfx.editor;
 
 import com.google.gson.Gson;
-import common.core.objects.DynamicElement;
-import common.core.objects.Map;
-import common.core.objects.StaticElement;
-import common.core.util.SpriteLoader;
-import common.core.objects.Layer;
+import common.gfx.objects.DynamicElement;
+import common.gfx.objects.Map;
+import common.gfx.objects.StaticElement;
+import common.gfx.render.GameEngine;
+import common.gfx.util.SpriteLoader;
+import common.gfx.objects.Layer;
 
 import java.io.FileReader;
 import java.util.List;
 
 public class MapLoader extends SpriteLoader {
-    public MapLoader(String PathToMaps) {
-        super(PathToMaps);
+    public MapLoader(String PathToMaps, GameEngine engine) {
+        super(PathToMaps, engine);
     }
 
     public void loadMap(int ID) {
@@ -32,7 +33,7 @@ public class MapLoader extends SpriteLoader {
                     }
                 }
             }
-            map.init();
+            map.init(engine);
         } catch (Exception e) {
             System.out.println("Error reading Maps");
         }

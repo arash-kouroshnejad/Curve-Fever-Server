@@ -1,6 +1,6 @@
 package common.net.agent;
 
-import common.core.util.Routine;
+import common.gfx.util.Routine;
 
 public class Ping extends Routine {
     public Ping(AbstractAgent agent, PolicyStack policies) {
