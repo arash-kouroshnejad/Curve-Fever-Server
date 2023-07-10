@@ -22,10 +22,10 @@ public abstract class AbstractAgent {
     protected ExecutorService pool;
     protected final TCPListener tcpListener = new TCPListener();
     protected final UDPListener udpListener = new UDPListener();
-    protected final PolicyStack policies;
+    protected final NetworkingPolicies policies;
     protected final int capacity;
 
-    public AbstractAgent(PolicyStack policies, int capacity) {
+    public AbstractAgent(NetworkingPolicies policies, int capacity) {
         this.policies = policies;
         broadcast.setPolicies(policies);
         this.capacity = capacity;

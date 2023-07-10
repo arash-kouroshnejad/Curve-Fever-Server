@@ -2,7 +2,7 @@ package common.gfx.objects;
 
 
 public class DynamicElement extends StaticElement {
-    int speedX, speedY;
+    double speedX, speedY;
 
     private boolean lockedCharacter;
 
@@ -22,19 +22,19 @@ public class DynamicElement extends StaticElement {
         this.speedY = speedY;
     }
 
-    public int getSpeedX() {
+    public double getSpeedX() {
         return speedX;
     }
 
-    public void setSpeedX(int speedX) {
+    public void setSpeedX(double speedX) {
         this.speedX = speedX;
     }
 
-    public int getSpeedY() {
+    public double getSpeedY() {
         return speedY;
     }
 
-    public void setSpeedY(int speedY) {
+    public void setSpeedY(double speedY) {
         this.speedY = speedY;
     }
 

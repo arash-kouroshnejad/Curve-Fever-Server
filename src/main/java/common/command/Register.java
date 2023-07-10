@@ -4,8 +4,12 @@ import common.net.data.Command;
 import common.net.data.Entity;
 import control.GameManager;
 
+import java.io.Serial;
+
 public class Register extends Command {
 
+    @Serial
+    private static final long serialVersionUID = -1501585029953646666L;
     public Register (Entity recipient) {
         super(recipient);
         addHeader("connection-type", "tcp");

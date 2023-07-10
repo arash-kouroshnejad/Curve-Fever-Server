@@ -1,7 +1,7 @@
 package common.gfx.editor;
 
 import common.gfx.render.GameEngine;
-import common.gfx.util.Routine;
+import common.util.Routine;
 
 public class MovementThread extends Routine {
     public MovementThread(GameEngine engine) {

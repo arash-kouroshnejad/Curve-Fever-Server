@@ -5,7 +5,7 @@ public class Routine extends Thread{
     private boolean killed;
     private final Semaphore semaphore = new Semaphore(0);
     private boolean paused;
-    private final Runnable task;
+    protected final Runnable task;
 
     public Routine(double FPS, Runnable task) {
         this.FPS = FPS;

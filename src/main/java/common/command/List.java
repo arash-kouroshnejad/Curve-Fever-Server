@@ -3,8 +3,11 @@ package common.command;
 import common.net.data.Command;
 import common.net.data.Entity;
 
-public class List extends Command {
+import java.io.Serial;
 
+public class List extends Command {
+    @Serial
+    private static final long serialVersionUID = -6818529734159577152L;
     public List(Entity recipient) {
         super(recipient);
         addHeader("connection-type", "tcp");

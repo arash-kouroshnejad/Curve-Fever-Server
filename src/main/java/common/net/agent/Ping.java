@@ -1,9 +1,9 @@
 package common.net.agent;
 
-import common.gfx.util.Routine;
+import common.util.Routine;
 
 public class Ping extends Routine {
-    public Ping(AbstractAgent agent, PolicyStack policies) {
+    public Ping(AbstractAgent agent, NetworkingPolicies policies) {
         super(0.5, () -> {
             for (var entity : agent.entities) {
                 var packet = policies.generateBeat(entity);

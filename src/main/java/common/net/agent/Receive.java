@@ -22,7 +22,7 @@ public class Receive extends Thread {
         executors = Executors.newFixedThreadPool(2 * agent.capacity);
     }
 
-    public void setPolicies(PolicyStack stack) {
+    public void setPolicies(NetworkingPolicies stack) {
         Fetch.setStack(stack);
         started = true;
     }
@@ -87,7 +87,7 @@ public class Receive extends Thread {
         Connection connection;
         Entity entity;
         AbstractAgent agent;
-        static PolicyStack stack;
+        static NetworkingPolicies stack;
         Receive thread;
         Runnable action;
 
@@ -108,14 +108,14 @@ public class Receive extends Thread {
                 if (action != null)
                     action.run();
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                // e.printStackTrace();
             }
             connection.setIdle(true);
             thread.restart();
         }
 
-        public static void setStack(PolicyStack policyStack) {
-            stack = policyStack;
+        public static void setStack(NetworkingPolicies networkingPolicies) {
+            stack = networkingPolicies;
         }
     }
 }

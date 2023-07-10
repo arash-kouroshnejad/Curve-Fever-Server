@@ -11,7 +11,7 @@ public class Broadcast {
     protected final AbstractAgent agent;
     protected boolean started;
 
-    public void setPolicies(PolicyStack stack) {
+    public void setPolicies(NetworkingPolicies stack) {
         Send.setPolicies(stack);
         started = true;
     }
@@ -30,7 +30,7 @@ public class Broadcast {
     private static class Send implements Runnable {
         Packet out;
         AbstractAgent agent;
-        static PolicyStack policies;
+        static NetworkingPolicies policies;
 
         public Send(Packet out, AbstractAgent agent) {
             this.out = out;
@@ -51,7 +51,7 @@ public class Broadcast {
             }
         }
 
-        public static void setPolicies(PolicyStack policies) {
+        public static void setPolicies(NetworkingPolicies policies) {
             Send.policies = policies;
         }
     }

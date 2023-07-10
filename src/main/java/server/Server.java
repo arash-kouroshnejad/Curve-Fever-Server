@@ -1,16 +1,14 @@
 package server;
 
-import common.net.agent.Heartbeat;
 import common.net.data.Command;
 import common.net.data.Packet;
-import common.policies.NetworkPolicies;
+import common.policies.NetRules;
 import server.tasks.Connect;
 import common.net.agent.AbstractAgent;
 import common.net.data.Entity;
 
 
 import java.io.IOException;
-import java.util.Optional;
 import java.util.concurrent.Executors;
 
 public class Server extends AbstractAgent {
@@ -18,7 +16,7 @@ public class Server extends AbstractAgent {
     boolean started;
 
     public Server() {
-        super(new NetworkPolicies(), 20);
+        super(new NetRules(), 20);
     }
 
     public void init() {

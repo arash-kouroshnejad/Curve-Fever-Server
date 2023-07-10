@@ -1,11 +1,11 @@
 package common.gfx.editor;
 
 import common.gfx.objects.*;
+import common.gfx.render.GameEngine;
 import common.gfx.util.Loader;
+import common.gfx.util.Logic;
 import common.gfx.util.Semaphore;
 import common.persistence.Config;
-import common.gfx.render.GameEngine;
-import common.gfx.util.Logic;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -17,20 +17,17 @@ public class LevelEditor extends GameEngine {
 
     private SpritePicker spritesFrame;
 
-    private Logic gameLogic;
-
     private MapCreator creator;
 
     private DynamicElement lastAdded;
 
-    private Semaphore mutex = Semaphore.getMutex();
+    private final Semaphore mutex = Semaphore.getMutex();
 
     private GameEngine engine;
 
     public void init(GameEngine engine, MapLoader loader, Logic gameLogic, MapCreator creator) {
         this.loader = loader;
         this.creator = creator;
-        this.gameLogic = gameLogic;
         this.engine = engine;
         engine.enableEditorMode();
         loader.loadMap(Config.getInstance().getProperty("EditorInputMap", Integer.class));
@@ -62,7 +59,7 @@ public class LevelEditor extends GameEngine {
     public synchronized void insertAt(String type, int x, int y, int state, int speedX, int speedY, int layerIndex) {
         mutex.acquire();
         // ugly code, layers is redundant really !!
-        java.util.List<Layer> layers = this.layers.getALL_LAYERS();
+        java.util.List<Layer> layers = engine.getLayers().getALL_LAYERS();
         if (layers.size() <= layerIndex) {
             for (int i = layers.size(); i < layerIndex + 1; i++)
                 layers.add(i, new Layer(new ArrayList<>(), new ArrayList<>(), layerIndex));
@@ -174,5 +171,10 @@ public class LevelEditor extends GameEngine {
     public void enableHeadless(Loader loader, GameEngine engine) {
         this.loader = loader;
         this.engine = engine;
+        layers = engine.getLayers();
+    }
+
+    public Layers getLayers() {
+        return engine.getLayers();
     }
 }

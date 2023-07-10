@@ -17,7 +17,6 @@ public class ViewPort {
 
     public void setLockedElement(DynamicElement lockedElement) {
         this.lockedElement = lockedElement;
-        x = lockedElement.getX() - width / 2;
     }
 
     public void setFrame(JFrame frame) {

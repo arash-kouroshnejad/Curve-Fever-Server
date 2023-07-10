@@ -4,8 +4,11 @@ import common.net.data.Command;
 import common.net.data.Entity;
 import control.GameManager;
 
-public class Invite extends Command {
+import java.io.Serial;
 
+public class Invite extends Command {
+    @Serial
+    private static final long serialVersionUID = 5279783614427568530L;
     public Invite(Entity recipient) {
         super(recipient);
         addHeader("connection-type", "tcp");

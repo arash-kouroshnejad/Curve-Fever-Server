@@ -5,7 +5,7 @@ import common.net.data.ConnectionType;
 import common.net.data.Entity;
 import common.net.data.Packet;
 
-public abstract class PolicyStack {
+public abstract class NetworkingPolicies {
 
     public abstract Packet generatePacket(Command command, Entity entity);
 

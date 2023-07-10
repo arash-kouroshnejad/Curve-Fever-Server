@@ -1,10 +1,10 @@
 package common.gfx.render;
 
+import common.gfx.objects.Layer;
 import common.gfx.objects.Layers;
 import common.gfx.objects.Map;
-import common.gfx.util.Semaphore;
-import common.gfx.objects.Layer;
 import common.gfx.util.Logic;
+import common.gfx.util.Semaphore;
 
 import java.awt.*;
 
@@ -23,7 +23,7 @@ public class GameEngine {
 
     private Map map;
 
-    private Semaphore mutex = Semaphore.getMutex();
+    private final Semaphore mutex = Semaphore.getMutex();
 
     public Map getMap() {
         return map;
@@ -39,6 +39,10 @@ public class GameEngine {
         return gameLogic;
     }
 
+    public void setGameLogic(Logic gameLogic) {
+        this.gameLogic = gameLogic;
+    }
+
     private Animation animationAgent;
 
     private boolean customPainting;
@@ -47,7 +51,7 @@ public class GameEngine {
         this.gameLogic = gameLogic;
         gameFrame = new GameFrame(this);
         viewPort.setFrame(gameFrame);
-        animationAgent = new Animation(80, this);
+        animationAgent = new Animation(50, this);
         animationAgent.start();
     }
 
@@ -79,13 +83,6 @@ public class GameEngine {
         mutex.acquire();
         java.util.List<Layer> allLayers = layers.getALL_LAYERS();
         if (allLayers != null) {
-            /*if (started) {
-                long time = System.nanoTime();
-                gameLogic.check();
-                long delta = System.nanoTime() - time;
-                if (delta > 500000)
-                    System.out.println(delta);
-            }*/
             for (Layer layer : allLayers) {
                 for (var element : layer.getStaticElements()) {
                     if (viewPort.inView(element) && !element.isHidden()) {
@@ -97,9 +94,6 @@ public class GameEngine {
                     if (viewPort.inView(element) && !element.isHidden()) {
                         g.drawImage(element.getImage(), element.getX() - viewPort.getX(), element.getY() - viewPort.getY(),
                                 element.getWidth(), element.getHeight(), gameFrame);
-                        // Logic code goes here
-                        /*if (element.isLockedCharacter() || !editorMode)
-                            element.move();*/
                     }
                 }
             }

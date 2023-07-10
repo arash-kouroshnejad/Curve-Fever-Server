@@ -4,8 +4,11 @@ import common.net.data.Command;
 import common.net.data.Entity;
 import control.GameManager;
 
-public class Join extends Command {
+import java.io.Serial;
 
+public class Join extends Command {
+    @Serial
+    private static final long serialVersionUID = 7190921986862550958L;
     public Join(Entity recipient) {
         super(recipient);
         addHeader("connection-type", "tcp");

@@ -1,6 +1,6 @@
 package common.net.agent;
 
-import common.gfx.util.Routine;
+import common.util.Routine;
 import common.net.data.Entity;
 
 import java.io.IOException;

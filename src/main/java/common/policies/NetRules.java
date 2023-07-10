@@ -1,13 +1,13 @@
 package common.policies;
 
 import common.net.agent.AbstractAgent;
-import common.net.agent.PolicyStack;
+import common.net.agent.NetworkingPolicies;
 import common.net.data.Command;
 import common.net.data.ConnectionType;
 import common.net.data.Entity;
 import common.net.data.Packet;
 
-public class NetworkPolicies extends PolicyStack {
+public class NetRules extends NetworkingPolicies {
     @Override
     public Packet generatePacket(Command command, Entity entity) {
         // raw packet

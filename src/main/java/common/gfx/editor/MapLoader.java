@@ -2,11 +2,11 @@ package common.gfx.editor;
 
 import com.google.gson.Gson;
 import common.gfx.objects.DynamicElement;
+import common.gfx.objects.Layer;
 import common.gfx.objects.Map;
 import common.gfx.objects.StaticElement;
 import common.gfx.render.GameEngine;
 import common.gfx.util.SpriteLoader;
-import common.gfx.objects.Layer;
 
 import java.io.FileReader;
 import java.util.List;
