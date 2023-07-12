@@ -1,22 +1,35 @@
 package game.util;
 
+import common.game.logic.Colour;
 import common.gfx.objects.DynamicElement;
 import common.gfx.objects.StaticElement;
 import common.util.Routine;
+import game.GameContainer;
 
 import java.util.List;
 
+import static game.util.Geometrics.dotProduct;
+
 public class Collision extends Routine {
-    public Collision(List<DynamicElement> dynamics, List<StaticElement> statics) {
-        super(1, () -> {
+    static String player1 = Colour.getPlayer1().getType();
+    static String player2 = Colour.getPlayer2().getType();
+
+    public Collision(List<DynamicElement> dynamics, List<StaticElement> statics, GameContainer container) {
+        super(10, () -> {
             for (var dynamic : dynamics)
-                for (var staticElement : statics)
-                    if (Math.abs(staticElement.getX() - dynamic.getX()) < 70 && Math.abs(staticElement.getY() -
-                            dynamic.getY()) < 70)
-                        if (dynamic.collidesWith(staticElement))
-                                if ((staticElement.getX() - dynamic.getX()) / (double)(staticElement.getY() -
-                                        dynamic.getY()) == -dynamic.getSpeedX() / dynamic.getSpeedY())
-                                    System.out.println(dynamic.getType() + " loses");
+                if (collides(dynamic, statics) && (player1.equals(dynamic.getType()) || player2.equals(dynamic.getType())))
+                    container.killGame();
         });
+    }
+
+    public static boolean collides(DynamicElement element, List<? extends StaticElement> statics) {
+        for (var staticElement : statics)
+            if (Math.abs(staticElement.getX() - element.getX()) < 70 && Math.abs(staticElement.getY() -
+                    element.getY()) < 70)
+                if (element.collidesWith(staticElement))
+                    if (dotProduct(new double[]{staticElement.getX() - element.getX(), staticElement.getY()
+                            - element.getY()}, new double[]{element.getSpeedX(), element.getSpeedY()}) > 0)
+                        return true;
+        return false;
     }
 }

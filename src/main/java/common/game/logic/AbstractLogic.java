@@ -24,6 +24,10 @@ public class AbstractLogic extends Logic {
         setTrail();
     }
 
+    public void killGame() {
+        killTrails();
+    }
+
     private void setTrail() {
         for (var dynamic : dynamics)
             trails.add(new Trailer(editor, dynamic, Config.getInstance().getProperty("StaticsLayer", Integer.class)));

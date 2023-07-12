@@ -12,7 +12,7 @@ public class Sync extends Command {
 
     public Sync(Entity entity) {
         super(entity);
-        addHeader("connection-type", "tcp");
+        addHeader("connection-type", "udp");
         addHeader("type", "sync");
     }
 }

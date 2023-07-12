@@ -10,8 +10,11 @@ public abstract class CommandPolicy extends AbstractPolicy {
 
     protected final GameLogic gameLogic;
 
-    public CommandPolicy(GameLogic gameLogic) {
+    protected final PolicyReference policyReference;
+
+    public CommandPolicy(GameLogic gameLogic, PolicyReference policyReference) {
         this.gameLogic = gameLogic;
+        this.policyReference = policyReference;
     }
 
     public abstract void enforce(Command command);

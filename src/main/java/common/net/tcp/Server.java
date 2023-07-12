@@ -3,8 +3,6 @@ package common.net.tcp;
 import common.net.data.Command;
 import common.net.data.Packet;
 
-import java.io.IOException;
-
 public class Server extends Thread{
     public void run() {
         try {

@@ -7,7 +7,6 @@ import common.net.data.Entity;
 import common.util.CommandFactory;
 import common.util.Routine;
 
-
 import java.util.List;
 
 public class Sync extends Routine {

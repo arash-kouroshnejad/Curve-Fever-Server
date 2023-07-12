@@ -69,12 +69,17 @@ public class GameManager {
             return;
         PlayerPool.removePlayer(player1.get());
         PlayerPool.removePlayer(player2.get());
-        server.send(CommandFactory.begin(player2Entity, Colour.Magenta));
-        /*server.send(commandFactory.begin(player1.get().entity(), Colour.getPlayer1()));
-        server.send(commandFactory.begin(player2.get().entity(), Colour.getPlayer2()));*/
-        var container = new GameContainer();
+        // server.send(CommandFactory.begin(player2Entity, Colour.Magenta));
+        server.send(CommandFactory.begin(player1.get().entity(), Colour.getPlayer1()));
+        server.send(CommandFactory.begin(player2.get().entity(), Colour.getPlayer2()));
+        var container = new GameContainer(player1.get(), player2.get(), server);
         ContainerPool.getPool().add(container);
-        container.init(player1.get(), player2.get(), server);
+    }
+
+    public void terminateGame(GameContainer container) {
+        ContainerPool.getPool().remove(container);
+        server.send(CommandFactory.terminate(container.getPlayer1().entity()));
+        server.send(CommandFactory.terminate(container.getPlayer2().entity()));
     }
 
     public void notifyLogic(KeyCommand command) {

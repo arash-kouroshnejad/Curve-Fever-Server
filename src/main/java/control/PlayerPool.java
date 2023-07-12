@@ -1,8 +1,8 @@
 package control;
 
 import common.net.data.Entity;
-import lombok.Getter;
 import game.model.Player;
+import lombok.Getter;
 
 import java.util.Collections;
 import java.util.Set;

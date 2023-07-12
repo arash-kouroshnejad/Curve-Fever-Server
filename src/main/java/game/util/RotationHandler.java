@@ -1,6 +1,5 @@
 package game.util;
 
-import game.util.Rotation;
 import common.gfx.objects.DynamicElement;
 import common.util.Routine;
 
@@ -32,7 +31,7 @@ public class RotationHandler extends Routine {
         @Override
         public void run() {
             var current = new double[]{head.getSpeedX(), head.getSpeedY()};
-            var finalSpeed = Rotation.rotate(current, angle);
+            var finalSpeed = Geometrics.rotate(current, angle);
             head.setSpeedX(finalSpeed[0]);
             head.setSpeedY(finalSpeed[1]);
         }

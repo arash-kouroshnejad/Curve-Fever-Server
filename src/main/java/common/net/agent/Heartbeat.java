@@ -1,7 +1,7 @@
 package common.net.agent;
 
-import common.util.Routine;
 import common.net.data.Entity;
+import common.util.Routine;
 
 import java.io.IOException;
 

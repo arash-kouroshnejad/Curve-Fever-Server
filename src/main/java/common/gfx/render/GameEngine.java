@@ -120,4 +120,8 @@ public class GameEngine {
     public ViewPort getViewPort() {
         return viewPort;
     }
+
+    public Dimension getScreenDimensions() {
+         return Toolkit.getDefaultToolkit().getScreenSize();
+    }
 }

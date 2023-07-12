@@ -1,10 +1,10 @@
 package common.policies;
 
 import common.command.*;
+import common.net.agent.PacketValidator;
 import common.net.data.Command;
 import common.net.data.Entity;
 import common.net.data.Packet;
-import common.net.agent.PacketValidator;
 import control.GameManager;
 
 public class Validator extends PacketValidator {

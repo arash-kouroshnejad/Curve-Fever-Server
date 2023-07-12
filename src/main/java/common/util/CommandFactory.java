@@ -45,4 +45,10 @@ public class CommandFactory {
     }
 
     public static Command begin(Entity recipient, Colour colour) {return new Begin(recipient).addHeader("colour", colour.getType());}
+
+    public static Command terminate(Entity recipient) {return new Terminate(recipient);}
+
+    public static Command dropLayer (Entity recipient, int layer) {return new Drop(recipient).addHeader("layer", layer);}
+
+    public static Command dropElement(Entity recipient, String type) {return new Drop(recipient).addHeader("element", type);}
 }

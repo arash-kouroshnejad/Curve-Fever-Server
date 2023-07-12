@@ -39,8 +39,6 @@ public class Broadcast {
 
         @Override
         public void run() {
-            // policy stack check
-            // check for null packets list.pop()
             if (out == null)
                 return;
 

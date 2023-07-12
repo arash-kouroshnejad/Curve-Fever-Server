@@ -2,7 +2,6 @@ package common.command;
 
 import common.net.data.Command;
 import common.net.data.Entity;
-import control.GameManager;
 
 import java.io.Serial;
 

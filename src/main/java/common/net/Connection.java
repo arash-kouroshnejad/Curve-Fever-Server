@@ -6,7 +6,6 @@ import lombok.Setter;
 
 import java.io.IOException;
 import java.net.SocketException;
-import java.util.Optional;
 
 public abstract class Connection {
     protected boolean connected;

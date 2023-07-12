@@ -16,7 +16,7 @@ public class DynamicElement extends StaticElement {
         return lockedCharacter;
     }
 
-    public DynamicElement(int x, int y, int width, int height, int speedX, int speedY, String type) {
+    public DynamicElement(int x, int y, int width, int height, double speedX, double speedY, String type) {
         super(x, y, width, height, type);
         this.speedX = speedX;
         this.speedY = speedY;

@@ -56,7 +56,7 @@ public class LevelEditor extends GameEngine {
         insertAt(type, x, y, state, 0, 0, layerIndex);
     }
 
-    public synchronized void insertAt(String type, int x, int y, int state, int speedX, int speedY, int layerIndex) {
+    public synchronized void insertAt(String type, int x, int y, int state, double speedX, double speedY, int layerIndex) {
         mutex.acquire();
         // ugly code, layers is redundant really !!
         java.util.List<Layer> layers = engine.getLayers().getALL_LAYERS();

@@ -1,12 +1,8 @@
 package common.net.udp;
 
 import common.net.Connection;
-import common.net.data.Command;
-import common.net.data.Packet;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.net.InetAddress;
 
 public class Server extends Thread{
     public void run () {
