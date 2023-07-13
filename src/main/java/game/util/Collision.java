@@ -1,6 +1,7 @@
 package game.util;
 
 import common.game.logic.Colour;
+import common.gfx.objects.Bounds;
 import common.gfx.objects.DynamicElement;
 import common.gfx.objects.StaticElement;
 import common.util.Routine;
@@ -14,11 +15,15 @@ public class Collision extends Routine {
     static String player1 = Colour.getPlayer1().getType();
     static String player2 = Colour.getPlayer2().getType();
 
-    public Collision(List<DynamicElement> dynamics, List<StaticElement> statics, GameContainer container) {
+    public Collision(List<DynamicElement> dynamics, List<StaticElement> statics, GameContainer container, Bounds bounds) {
         super(10, () -> {
-            for (var dynamic : dynamics)
+            for (var dynamic : dynamics) {
+                if (dynamic.getX() < bounds.LEFT || dynamic.getX() > bounds.RIGHT || dynamic.getY() > bounds.BOTTOM ||
+                        dynamic.getY() < bounds.TOP)
+                    container.killGame();
                 if (collides(dynamic, statics) && (player1.equals(dynamic.getType()) || player2.equals(dynamic.getType())))
                     container.killGame();
+            }
         });
     }
 

@@ -12,12 +12,14 @@ public class Clear extends PowerupPolicy {
 
     @Override
     public void enforce(DynamicElement element1, DynamicElement element2) {
-
+        var element = "Eraser".equals(element1.getType()) ? element1 : element2;
+        policyReference.getEditor().removeElement(element);
+        policyReference.getEditor().dropLayer(1, false);
     }
 
     @Override
     public boolean isEnforceable(DynamicElement element1, DynamicElement element2) {
-        return false;
+        return "Eraser".equals(element1.getType()) || "Eraser".equals(element2.getType());
     }
 
     @Override

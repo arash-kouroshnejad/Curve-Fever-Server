@@ -168,6 +168,12 @@ public class LevelEditor extends GameEngine {
         return Optional.empty();
     }
 
+    public void dropLayer(int layerIndex, boolean dynamic) {
+        var layer = layers.getALL_LAYERS().get(layerIndex);
+        var list = (dynamic) ? layer.getDynamicElements() : layer.getStaticElements();
+        list.clear();
+    }
+
     public void enableHeadless(Loader loader, GameEngine engine) {
         this.loader = loader;
         this.engine = engine;

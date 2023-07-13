@@ -21,8 +21,10 @@ public class Confusion extends PowerupPolicy {
     @Override
     public void enforce(DynamicElement element1, DynamicElement element2) {
         var element = element1.getType().equals("Confuse") ? element1 : element2;
-        affected = element == element1 ? element2 : element1;
         policyReference.getEditor().removeElement(element);
+        var holder = element == element1 ? element2 : element1;
+        affected = policyReference.getPlayer1Character() == holder ? policyReference.getPlayer2Character() :
+                policyReference.getPlayer1Character();
         enableEffect();
     }
 
