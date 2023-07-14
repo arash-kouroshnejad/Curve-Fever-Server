@@ -12,10 +12,14 @@ import java.net.SocketException;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static common.net.data.Packet.generateUniversalPacket;
+import static common.net.udp.ByteUtils.toBytes;
+
 /* id -1 is reserved */
 public class UDPConnection extends Connection {
     protected DatagramSocket socket;
-    protected final byte[] buffer = new byte[65000];
+    protected final byte[] writeBuffer = new byte[65000];
+    protected final byte[] readBuffer = new byte[65000];
 
     @Override
     public void connectTo(String remoteAddress, int remotePort, String localAddress, int localPort) throws IOException {
@@ -35,23 +39,23 @@ public class UDPConnection extends Connection {
     }
 
     @Override
-    public void send(Packet data) throws IOException {
+    public synchronized void send(Packet data) throws IOException {
         var bytes = Packet.toBytes(data);
         byte[] length = toBytes(bytes.length);
-        System.arraycopy(length, 0, buffer, 0, 2);
-        System.arraycopy(bytes, 0, buffer, 2, bytes.length);
-        var datagramPacket = new DatagramPacket(buffer, bytes.length + 2);
+        System.arraycopy(length, 0, writeBuffer, 0, 2);
+        System.arraycopy(bytes, 0, writeBuffer, 2, bytes.length);
+        var datagramPacket = new DatagramPacket(writeBuffer, bytes.length + 2);
         socket.send(datagramPacket);
     }
 
-    protected DatagramPacket readPacket() throws IOException {
-        var input = new DatagramPacket(buffer, buffer.length);
+    public DatagramPacket readPacket() throws IOException {
+        var input = new DatagramPacket(readBuffer, readBuffer.length);
         socket.receive(input);
         return input;
     }
 
     @Override
-    public synchronized Packet fetch() throws IOException {
+    public  Packet fetch() throws IOException {
         var packet = generateUniversalPacket(readPacket());
         if (connected)
             while (packet.id == -1)
@@ -65,7 +69,7 @@ public class UDPConnection extends Connection {
             @Override
             public void run() {
                 try {
-                    send(new Packet(new Command(null).addHeader("ping", "ping"), -1));
+                    send(new Packet(new Command(null).addHeader("syn", "syn"), -1));
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -77,22 +81,8 @@ public class UDPConnection extends Connection {
         timer.cancel();
     }
 
-    protected Packet generateUniversalPacket(DatagramPacket datagramPacket) {
-        return Packet.toPacket(datagramPacket.getData(), toHex(datagramPacket.getData()));
-    }
 
-    protected byte[] toBytes(int length) {
-        byte[] out = new byte[2];
-        int ind1 = length / 256;
-        int ind2 = length - 256 * ind1;
-        out[0] = (byte) ind1;
-        out[1] = (byte) ind2;
-        return out;
-    }
 
-    protected int toHex(byte[] input) {
-        return (input[0] & 0xFF) * 256 + (input[1] & 0xFF);
-    }
 
     public void setTimeout(int millis) throws SocketException {
         socket.setSoTimeout(millis);

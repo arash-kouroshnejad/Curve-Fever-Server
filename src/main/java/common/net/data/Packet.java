@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.net.DatagramPacket;
+
+import static common.net.udp.ByteUtils.toHex;
 
 public class Packet implements Serializable {
 
@@ -43,5 +46,9 @@ public class Packet implements Serializable {
         } catch (ClassCastException e) {
             throw new RuntimeException("Packet is corrupted");
         }
+    }
+
+    public static Packet generateUniversalPacket(DatagramPacket datagramPacket) {
+        return Packet.toPacket(datagramPacket.getData(), toHex(datagramPacket.getData()));
     }
 }

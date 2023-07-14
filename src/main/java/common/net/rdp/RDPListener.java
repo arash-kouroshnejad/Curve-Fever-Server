@@ -1,9 +1,9 @@
-package common.net.udp;
+package common.net.rdp;
 
 import common.net.Connection;
-import common.net.Listener;
 import common.net.data.Command;
 import common.net.data.Packet;
+import common.net.udp.UDPListener;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -13,8 +13,7 @@ import java.net.InetAddress;
 import static common.net.data.Packet.generateUniversalPacket;
 import static common.net.udp.ByteUtils.toBytes;
 
-public class UDPListener extends Listener {
-    protected DatagramSocket socket;
+public class RDPListener extends UDPListener {
     @Override
     public Connection listen(int portNumber) throws IOException {
         if (!started)
@@ -22,33 +21,49 @@ public class UDPListener extends Listener {
         return new ConnectionImpl(socket);
     }
 
-    @Override
-    protected void init(int portNumber) throws IOException {
-        socket = new DatagramSocket(portNumber);
-        started = true;
-    }
-
-    @Override
-    public void close() throws IOException {}
-
-    private static class ConnectionImpl extends UDPConnection {
+    private static class ConnectionImpl extends RDPConnection {
         InetAddress remoteAddress;
         int remotePort;
         public ConnectionImpl(DatagramSocket socket) throws IOException {
             this.socket = socket;
             handShake();
+            start();
         }
 
-        @Override
-        public synchronized void send(Packet data) throws IOException {
+        private synchronized void send(Packet data, long current, boolean queued) throws IOException {
             if (!connected)
                 throw new RuntimeException("Address not set!");
+            if (queued) {
+                last_seq_wrt = current;
+                data.id = current;
+                out_arr[(int) current] = data;
+            }
             var bytes = Packet.toBytes(data);
             byte[] length = toBytes(bytes.length);
             System.arraycopy(length, 0, writeBuffer, 0, 2);
             System.arraycopy(bytes, 0, writeBuffer, 2, bytes.length);
             var datagramPacket = new DatagramPacket(writeBuffer, bytes.length + 2, remoteAddress, remotePort);
             socket.send(datagramPacket);
+        }
+
+        protected void flush(int index) throws IOException {
+            for (int i  = index; i < 100; i++) {
+                send(out_arr[i], 0, false);
+                try {
+                    Thread.sleep(5);
+                } catch (Exception ignored) {}
+            }
+        }
+
+        public synchronized void send(Packet data) throws IOException {
+            long current = (last_seq_wrt + 1) % 100;
+            ensure(data, current);
+            send(data, current, true);
+        }
+
+        void send(byte[] pack) throws IOException {
+            var packet = new DatagramPacket(pack, pack.length, remoteAddress, remotePort);
+            socket.send(packet);
         }
 
         protected void init(DatagramPacket firstPacket) {
@@ -66,9 +81,8 @@ public class UDPListener extends Listener {
                 universalPacket = generateUniversalPacket(datagramPacket);
             }
             init(datagramPacket);
-            for (int i = 0; i < 10; i++) {
-                send(new Packet(new Command(null).addHeader("ack", "ack"), -1));
-            }
+            for (int i = 0; i < 10; i++)
+                send(new Packet(new Command(null).addHeader("ack", "ack"), -1), 0, false);
         }
     }
 }
