@@ -45,7 +45,7 @@ public class HouseKeeper extends Thread{
 
                 else {
                     var packet = generateUniversalPacket(read);
-                    if (packet != null && packet.id == (last_seq_rec + 1) % 100) {
+                    if (packet != null && packet.id == (last_seq_rec + 1) % 2000) {
                         inbound.add(packet);
                         connection.send(longToBytes(packet.id, ack_buff));
                         last_seq_rec = packet.id;

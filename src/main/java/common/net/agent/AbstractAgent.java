@@ -24,7 +24,7 @@ public abstract class AbstractAgent {
     protected final Receive receive;
     protected ExecutorService pool;
     protected final TCPListener tcpListener = new TCPListener();
-    protected final UDPListener udpListener = new UDPListener();
+    protected final UDPListener udpListener = new RDPListener();
     protected final NetworkingPolicies policies;
     protected final int capacity;
 

@@ -2,6 +2,7 @@ package common.net.agent;
 
 import common.net.Connection;
 import common.net.data.Entity;
+import common.net.tcp.TCPConnection;
 import common.net.udp.UDPConnection;
 import common.util.Semaphore;
 

@@ -47,12 +47,8 @@ public class NetRules extends NetworkingPolicies {
     @Override
     public void routePacket(Packet in, Entity entity, AbstractAgent agent) {
         // heart beat
-        if (in.id != 0)
-            entity.getHeartbeats().add(in);
-        else {
-            in.setEntity(entity);
-            agent.addToInbound(in);
-        }
+        in.setEntity(entity);
+        agent.addToInbound(in);
     }
 
     @Override

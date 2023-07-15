@@ -12,6 +12,6 @@ import java.util.List;
 public class Sync extends Routine {
     static Gson serializer = new Gson();
     public Sync(List<DynamicElement> dynamics, Entity player, AbstractAgent server) {
-        super(30, () -> server.send(CommandFactory.sync(player, serializer.toJson(dynamics))));
+        super(10, () -> server.send(CommandFactory.sync(player, serializer.toJson(dynamics))));
     }
 }

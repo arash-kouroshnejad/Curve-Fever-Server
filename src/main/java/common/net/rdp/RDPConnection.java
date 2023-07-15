@@ -18,7 +18,7 @@ public class RDPConnection extends UDPConnection {
     protected final Queue<Packet> inbound = new ConcurrentLinkedQueue<>();
     final Semaphore read_lock = new Semaphore(0);
     protected long last_seq_wrt = -1;
-    protected final Packet[] out_arr = new Packet[100];
+    protected final Packet[] out_arr = new Packet[2000];
     HouseKeeper keeper;
 
 
@@ -40,7 +40,7 @@ public class RDPConnection extends UDPConnection {
 
     @Override
     public void send(Packet data) throws IOException {
-        long current = (last_seq_wrt + 1) % 100;
+        long current = (last_seq_wrt + 1) % 2000;
         ensure(data, current);
         last_seq_wrt = current;
         data.id = current;
@@ -50,7 +50,7 @@ public class RDPConnection extends UDPConnection {
 
     protected void ensure(Packet data, long current) throws IOException {
         boolean notFlushed = false;
-        for (int i = (int) current; i < 100; i++) {
+        for (int i = (int) current; i < 2000; i++) {
             if (out_arr[i] != null) {
                 notFlushed = true;
                 break;
@@ -63,11 +63,13 @@ public class RDPConnection extends UDPConnection {
     }
 
     protected void flush(int index) throws IOException {
-        for (int i  = index; i < 100; i++) {
-            transmit(out_arr[i]);
-            try {
-                Thread.sleep(5);
-            } catch (Exception ignored) {}
+        for (int i  = index; i < 2000; i++) {
+            if (out_arr[i] != null) {
+                transmit(out_arr[i]);
+                try {
+                    Thread.sleep(5);
+                } catch (Exception ignored) {}
+            }
         }
     }
 
@@ -83,7 +85,7 @@ public class RDPConnection extends UDPConnection {
     }
 
     @Override
-    public synchronized Packet fetch() throws IOException {
+    public  Packet fetch() throws IOException { // should be called by a single thread
         Packet packet;
         while ((packet = inbound.poll()) == null)
             read_lock.forceLock();

@@ -47,16 +47,18 @@ public class RDPListener extends UDPListener {
         }
 
         protected void flush(int index) throws IOException {
-            for (int i  = index; i < 100; i++) {
-                send(out_arr[i], 0, false);
-                try {
-                    Thread.sleep(5);
-                } catch (Exception ignored) {}
+            for (int i  = index; i < 2000; i++) {
+                if (out_arr[i] != null) {
+                    send(out_arr[i], 0, false);
+                    try {
+                        Thread.sleep(5);
+                    } catch (Exception ignored) {}
+                }
             }
         }
 
-        public synchronized void send(Packet data) throws IOException {
-            long current = (last_seq_wrt + 1) % 100;
+        public void send(Packet data) throws IOException {
+            long current = (last_seq_wrt + 1) % 2000;
             ensure(data, current);
             send(data, current, true);
         }
